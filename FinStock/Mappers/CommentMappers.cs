@@ -12,21 +12,20 @@ namespace FinStock.Mappers
                 Id = commentModel.Id,
                 Title = commentModel.Title,
                 Content = commentModel.Content,
-                StockId = commentModel.StockId
+                StockId = commentModel.StockId,
+                CreatedAt = commentModel.CreatedAt
             };
         }
 
-        // public static Stock ToStockFromCreateDTO(this CreateStockRequestDto stockDto)
-        // {
-        //     return new Stock
-        //     {
-        //         CompanyName = stockDto.CompanyName,
-        //         Industry = stockDto.Industry,
-        //         LastDiv = stockDto.LastDiv,
-        //         MarketCap = stockDto.MarketCap,
-        //         Purchase = stockDto.Purchase,
-        //         Symbol = stockDto.Symbol
-        //     };
-        // }
+        // TODO: get the stockId from route param
+        public static Comment ToCommentFromCreateDTO(this CreateCommentDto commentDto)
+        {
+            return new Comment
+            {
+                Content = commentDto.Content,
+                Title = commentDto.Title,
+                StockId = commentDto.StockId
+            };
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace FinStock.Interfaces
         Task<Stock> CreateAsync(Stock stockModel);
         Task<Stock?> UpdateByIdAsync(int id, UpdateStockRequestDto stockDto);
         Task<Stock?> DeleteByIdAsync(int id);
+        Task<bool> StockExist(int id);
     }
 }
