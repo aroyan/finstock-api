@@ -1,0 +1,12 @@
+@base_url=http://localhost:5244
+
+### GET Stocks
+GET {{base_url}}/api/stock
+
+### POST Stock
+POST {{base_url}}/api/stock
+Content-Type: application/json
+
+{
+
+}
