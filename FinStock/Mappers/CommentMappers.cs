@@ -18,13 +18,13 @@ namespace FinStock.Mappers
         }
 
         // TODO: get the stockId from route param
-        public static Comment ToCommentFromCreateDTO(this CreateCommentDto commentDto)
+        public static Comment ToCommentFromCreateDTO(this CreateCommentDto commentDto, int stockId)
         {
             return new Comment
             {
                 Content = commentDto.Content,
                 Title = commentDto.Title,
-                StockId = commentDto.StockId
+                StockId = stockId
             };
         }
     }

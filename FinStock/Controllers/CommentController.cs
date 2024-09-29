@@ -17,14 +17,20 @@ namespace FinStock.Controllers
             _stockRepository = stockRepository;
         }
 
-        [HttpPost("{stockId}")]
+        [HttpPost("{stockId:int}")]
         public async Task<IActionResult> Create([FromRoute] int stockId, [FromBody] CreateCommentDto createCommentDto)
         {
             if (!await _stockRepository.StockExist(stockId))
             {
                 return BadRequest("Stock does not exist");
             }
-            var commentModel = createCommentDto.ToCommentFromCreateDTO();
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var commentModel = createCommentDto.ToCommentFromCreateDTO(stockId);
             await _commentRepository.CreateAsync(commentModel);
             return Ok(commentModel.ToCommentDto());
         }
@@ -38,7 +44,7 @@ namespace FinStock.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
         {
             var comment = await _commentRepository.GetByIdAsync(id);
@@ -52,7 +58,7 @@ namespace FinStock.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> DeleteByIdAsync([FromRoute] int id)
         {
             var comment = await _commentRepository.DeleteByIdAsync(id);
@@ -66,7 +72,7 @@ namespace FinStock.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> UpdateByIdAsync([FromRoute] int id, [FromBody] UpdateCommentDto updateCommentDto)
         {
             var comment = await _commentRepository.UpdateByIdAsync(id, updateCommentDto);
@@ -74,6 +80,11 @@ namespace FinStock.Controllers
             if (comment is null)
             {
                 return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
             }
 
             return Ok(comment.ToCommentDto());

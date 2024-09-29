@@ -23,6 +23,11 @@ builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 var app = builder.Build();
 
+app.MapGet("/", (HttpContext context) =>
+{
+    context.Response.Redirect("/swagger");
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
