@@ -5,7 +5,7 @@ namespace FinStock.Interfaces
 {
     public interface IStockRepository
     {
-        Task<List<Stock>> GetAllAsync(QueryParameters queryParameters);
+        Task<List<Stock>> GetAllAsync(StockQuery queryParameters);
         Task<Stock?> GetByIdAsync(int id); // FirstOrDefault can be null;
         Task<Stock> CreateAsync(Stock stockModel);
         Task<Stock?> UpdateByIdAsync(int id, UpdateStockRequestDto stockDto);

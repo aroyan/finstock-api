@@ -37,15 +37,21 @@ namespace FinStock.Repository
             return stockModel;
         }
 
-        public async Task<List<Stock>> GetAllAsync(QueryParameters queryParameters)
+        public async Task<List<Stock>> GetAllAsync(StockQuery queryParameters)
         {
-            var stocks = await _context.Stocks
+            IQueryable<Stock> stocks = _context.Stocks;
+
+            if (!string.IsNullOrEmpty(queryParameters.Symbol))
+            {
+                stocks = stocks
+                            .Where(item => item.Symbol.ToLower().Contains(queryParameters.Symbol.ToLower()));
+            }
+            stocks = stocks
                                             .Skip(queryParameters.Size * (queryParameters.Page - 1))
                                             .Take(queryParameters.Size)
-                                            .Include(c => c.Comments)
-                                            .ToListAsync();
+                                            .Include(c => c.Comments);
 
-            return stocks;
+            return await stocks.ToListAsync();
         }
 
         public async Task<Stock?> GetByIdAsync(int id)
