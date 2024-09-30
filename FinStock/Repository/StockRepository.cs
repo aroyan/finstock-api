@@ -46,6 +46,7 @@ namespace FinStock.Repository
                 stocks = stocks
                             .Where(item => item.Symbol.ToLower().Contains(queryParameters.Symbol.ToLower()));
             }
+
             stocks = stocks
                                             .Skip(queryParameters.Size * (queryParameters.Page - 1))
                                             .Take(queryParameters.Size)
