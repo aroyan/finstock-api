@@ -1,0 +1,25 @@
+services:
+  finstock-app:
+    build: .
+    container_name: finstock-app
+    ports:
+      - "8080:8080"
+    volumes:
+      - finstock-data:/App/out # Volume for persisting database data
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  # Backup service
+  finstock-backup:
+    image: busybox # Use a lightweight image like Busybox for running backups
+    container_name: finstock-backup
+    depends_on:
+      - finstock-app # Ensure the app service starts first
+    volumes:
+      - finstock-data:/App/out # Access the database file from the finstock-app container
+      - ./backups:/backups # Mount a host directory to store backups
+    entrypoint: [ "sh", "-c", "while true; do cp /App/out/FinStock.db /backups/FinStock_backup_$(date +'%Y%m%d%H%M%S').db; sleep 3600; done" ]
+    # The entrypoint above creates a backup every hour (3600 seconds).
+
+volumes:
+  finstock-data:
