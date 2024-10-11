@@ -24,17 +24,17 @@ namespace FinStock.Service
         {
             var claims = new List<Claim> {
                 new(JwtRegisteredClaimNames.Email, user.Email),
-                new(JwtRegisteredClaimNames.GivenName, user.UserName)
+                new(JwtRegisteredClaimNames.GivenName, user.UserName),
             };
 
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.Now.AddMinutes(60),
                 SigningCredentials = credentials,
                 Issuer = _configuration["JWT:Issuer"],
-                Audience = _configuration["JWT:Audience"]
+                Audience = _configuration["JWT:Audience"],
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();

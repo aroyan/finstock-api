@@ -2,6 +2,7 @@ using FinStock.Dtos.Stock;
 using FinStock.Interfaces;
 using FinStock.Mappers;
 using FinStock.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinStock.Controllers
@@ -18,6 +19,7 @@ namespace FinStock.Controllers
 
         // GET /api/stock
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] StockQuery queryParameters)
         {
             var stocks = await _stockRepo.GetAllAsync(queryParameters);

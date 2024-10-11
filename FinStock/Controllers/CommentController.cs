@@ -1,12 +1,14 @@
 using FinStock.Dtos.Comment;
 using FinStock.Interfaces;
 using FinStock.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinStock.Controllers
 {
     [ApiController]
     [Route("api/comment")]
+    [Authorize]
     public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _commentRepository;
